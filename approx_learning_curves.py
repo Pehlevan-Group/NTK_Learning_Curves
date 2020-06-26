@@ -61,6 +61,13 @@ def mode_err_MOC(p,t,spectrum, degens, lamb):
         mode_errs[i] = prefactor * spectrum[i]**2 * degens[i] / (1 + spectrum[i]*p/(lamb+t) )**2
     return mode_errs
 
+def get_noise_errs(p,t,spectrum,degens, lamb):
+    gam = gamma(p,t,spectrum, degens, lamb)
+    prefactor = p / ( (lamb+t)**2 - gam*p)
+    noise_errs = np.zeros(len(spectrum))
+    for i in range(len(spectrum)):
+        noise_errs[i] = prefactor * spectrum[i]**2 * degens[i] / (1 + p*spectrum[i] / (lamb+t))**2
+    return noise_errs
 
 def dynamical(g, p, *args):
     degens, lamb = args
@@ -71,7 +78,6 @@ def dynamics_errors(e, p, *args):
     degens, lamb = args
     return -2 * e**(1.5) * (degens)**(-1) /(lamb + np.dot( degens**(0.5), e**(0.5) ))
 
-# calculate theoretical learning curves using the Algorithm 1 of the main text
 def simulate_uc(spectrum, degens, lamb = 1e-8, num_pts = 500, max_p= 3.5):
 
     p = np.logspace(1e-1, max_p, num = num_pts)
@@ -86,7 +92,6 @@ def simulate_uc(spectrum, degens, lamb = 1e-8, num_pts = 500, max_p= 3.5):
         gams[i] = gamma(p[i],total_roots[i],spectrum, degens, lamb)
         mode_errs[i,:] = mode_err_MOC(p[i], total_roots[i], spectrum, degens, lamb)
 
-
     theory_err_nn = np.zeros(mode_errs.shape)
     for k in range(mode_errs.shape[1]):
         if spectrum[k] !=0:
@@ -95,3 +100,31 @@ def simulate_uc(spectrum, degens, lamb = 1e-8, num_pts = 500, max_p= 3.5):
     kplot = [0,1,2,4,6]
     colors = ['b','r','g','m','c']
     return mode_errs, p
+
+# calculate theoretical learning curves using the Algorithm 1 of the main text
+def simulate_uc_noise(spectrum, degens, lamb = 1e-8, num_pts = 500, max_p= 3.5):
+
+    p = np.logspace(1e-1, max_p, num = num_pts)
+
+    total_roots = solve_total(p, spectrum, degens, lamb)
+
+    errs = np.zeros(len(p))
+    gams = np.zeros(len(p))
+    mode_errs = np.zeros(( len(p), len(spectrum) ))
+    noise_errs = np.zeros((len(p), len(spectrum)))
+    total_noise = np.zeros(len(p))
+    for i in range(len(p)):
+        errs[i] = total_err(p[i], total_roots[i], spectrum,degens,lamb)
+        gams[i] = gamma(p[i],total_roots[i],spectrum, degens, lamb)
+        mode_errs[i,:] = mode_err_MOC(p[i], total_roots[i], spectrum, degens, lamb)
+        noise_errs[i,:] = get_noise_errs(p[i], total_roots[i], spectrum, degens, lamb)
+        total_noise[i] = p[i]*gams[i] / (  (lamb + total_roots[i])**2 - p[i]*gams[i] )
+    theory_err_nn = np.zeros(mode_errs.shape)
+    for k in range(mode_errs.shape[1]):
+        if spectrum[k] !=0:
+            theory_err_nn[:,k] = mode_errs[:,k] / spectrum[k]
+
+
+    kplot = [0,1,2,4,6]
+    colors = ['b','r','g','m','c']
+    return mode_errs, noise_errs, total_noise, p

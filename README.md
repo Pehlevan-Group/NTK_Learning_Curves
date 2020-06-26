@@ -24,6 +24,11 @@ These parameters default to the values used in the paper.
 
 `python two_layer.py --input_dim [d] --M [M]`
 
+
+### MNIST Experiments with NTK and NN regression
+
+`python mnist_multiple_classes.py`
+
 ### Plotting
 
 `python plot_two_layer.py --input_dim [d] --M [M]`
