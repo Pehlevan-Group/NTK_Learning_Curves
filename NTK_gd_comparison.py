@@ -61,7 +61,7 @@ parser.add_argument('--input_dim', type=int, default= 30,
 parser.add_argument('--M', type=int,
   help='number of hidden units', default = 500)
 parser.add_argument('--depth', type=int, default= 2,
-  help='network depth; int from [2,3,4]')
+  help='network depth; integer')
 parser.add_argument('--num_targets', type=int, default= 10000,
   help='number of points in ')
 parser.add_argument('--test_points', type=int, default= 1000,
@@ -80,24 +80,14 @@ test_points = args.test_points
 learning_rate = args.learning_rate
 training_steps = args.training_steps
 
-init_fn, apply_fn, kernel_fn = stax.serial(
-      stax.Dense(M, W_std=1.5, b_std=0.0, parameterization ='ntk'), stax.Relu(),
-      stax.Dense(1, W_std=1.5, b_std=0.00, parameterization = 'ntk')
-  )
+def create_network(depth, width):
+    layers = []
+    for l in range(depth):
+        layers += [stax.Dense(M, W_std=1.5, b_std=0.0, parameterization ='ntk'), stax.Relu()]
+    layers += [stax.Dense(1,W_std=1.5, b_std = 0, parameterization = 'ntk')]
+    return stax.serial(*layers)
 
-if depth == 3:
-    init_fn, apply_fn, kernel_fn = stax.serial(
-          stax.Dense(M, W_std=1.5, b_std=0.0, parameterization ='ntk'), stax.Relu(),
-          stax.Dense(1, W_std=1.5, b_std=0.00, parameterization = 'ntk')
-      )
-
-if depth == 4:
-    init_fn, apply_fn, kernel_fn = stax.serial(
-          stax.Dense(M, W_std=1.5, b_std=0.0, parameterization ='ntk'), stax.Relu(),
-          stax.Dense(M, W_std=1.5, b_std=0.0, parameterization ='ntk'), stax.Relu(),
-          stax.Dense(M, W_std=1.5, b_std=0.0, parameterization ='ntk'), stax.Relu(),
-          stax.Dense(1, W_std=1.5, b_std=0.00, parameterization = 'ntk')
-      )
+init_fn, apply_fn, kernel_fn = stax.serial(depth, M)
 
 apply_fn = jit(apply_fn)
 kernel_fn = jit(kernel_fn, static_argnums=(2,))

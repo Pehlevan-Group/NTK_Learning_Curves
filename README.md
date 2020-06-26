@@ -18,7 +18,7 @@ These parameters default to the values used in the paper.
 
 `python NTK_gd_comparison.py --input_dim [d] --M [M] --depth [depth] --learning_rage [lr]`
 
-`M` is the number of hidden units in each layer. Depth limited to 2,3,4.
+`M` is the number of hidden units in each layer.
 
 ### Two-Layer NN with Composite Targets
 
