@@ -87,7 +87,7 @@ def create_network(depth, width):
     layers += [stax.Dense(1,W_std=1.5, b_std = 0, parameterization = 'ntk')]
     return stax.serial(*layers)
 
-init_fn, apply_fn, kernel_fn = stax.serial(depth, M)
+init_fn, apply_fn, kernel_fn = create_network(depth, M)
 
 apply_fn = jit(apply_fn)
 kernel_fn = jit(kernel_fn, static_argnums=(2,))
