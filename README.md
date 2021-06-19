@@ -1,6 +1,17 @@
-
 # Learning Curves for NTK and Wide Neural Networks
 See our preprint on [Arxiv](https://arxiv.org/abs/2002.02561)
+
+## Setup
+
+Using the [Python dependency manager `poetry`](https://python-poetry.org/) you can easily install all dependencies for this project with:
+```
+$ poetry install
+```
+
+Now start the virtual environment (and run all subsequent commands within it):
+```
+$ poetry shell
+```
 
 ## Experiments
 
