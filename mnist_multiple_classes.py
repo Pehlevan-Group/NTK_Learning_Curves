@@ -153,7 +153,7 @@ def kernel_gen_expt():
             yhat = nt.predict.gp_inference(kernel_fn, images[inds,:], labels[inds,:], images, get='ntk', diag_reg = 1e-10, compute_cov=False)
             yhat_test = nt.predict.gp_inference(kernel_fn, images[inds,:], labels[inds,:], x_test, get='ntk', diag_reg = 1e-10, compute_cov=False)
             error += 0.5 * 1/len(labels) * npo.linalg.norm(yhat-labels)**2 / num_repeats
-            error_test += 0.5 * 1/len(y_test) * npo.linalg.norm( yhat_test[:,0] - y_test )**2 / num_repeats
+            error_test += 0.5 * 1/len(y_test) * npo.linalg.norm(yhat_test - y_test)**2 / num_repeats
             all_test_predictions = yhat_test
             print("largest prediction")
             print(np.amax(np.abs(yhat_test)))

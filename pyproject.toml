@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "ntk_learning_curves"
+version = "0.1.0"
+description = ""
+authors = ["Blake Bordelon"]
+
+[tool.poetry.dependencies]
+python = "~3.8"
+matplotlib = "^3.4.2"
+numpy = "^1.19.5"
+pandas = "^1.2.4"
+scipy = "^1.6.3"
+jax = "0.1.62"
+jaxlib = "0.1.43"
+numba = "^0.53.1"
+neural-tangents = "0.2.2"
+python-mnist = "^0.7"
+learning-curves = "^0.2.2"
+tensorflow = "^2.5.0"
+flatbuffers = "^1.12.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
