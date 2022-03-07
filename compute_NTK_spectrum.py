@@ -16,20 +16,38 @@ def f(phi, L):
     else:
         return f(phi,L-1)
 
-# recursively compute ReLU NNGP for depth L and angles phi
 def NNGP(phi, L):
+    z = np.cos(phi)
+    for l in range(L):
+        z = 1/np.pi * ( np.sqrt(1-z**2) + z * (np.pi - np.arccos(z)) )
+    return z
 
-    if L == 1:
+def NNGP2(z,L):
+    for l in range(L):
+        z = 1/np.pi * ( np.sqrt(1-z**2) + z * (np.pi - np.arccos(z)) )
+    return z
 
-        z = np.cos(phi)
-        k = (1-1/math.pi * phi) * z + 1/math.pi * np.sqrt(1-z**2)
-        return k
-    else:
-        Theta = NNGP(phi ,L-1)
-        return f(Theta,1)
+# recursively compute ReLU NNGP for depth L and angles phi
+#def NNGP(phi, L):
+#    if L == 1:
+
+#        z = np.cos(phi)
+#        k = (1-1/math.pi * phi) * z + 1/math.pi * np.sqrt(1-z**2)
+#        return k
+#    else:
+#        Theta = NNGP(phi ,L-1)#
+#        return f(Theta,1)
+
+def Dot_Phi_Kernel(z):
+    return 1/np.pi *(np.pi - np.arccos(z))
+
+def NTK_iter(phi, L):
+    all_NNGP = [NNGP(phi,l) for l in range(L)]
+    all_dot = [Dot_Phi_Kernel(np.arccos(phi),)]
+    return
 
 # recursively compute ReLU NTK for depth L and angles phi
-def NTK(phi, L):
+def NTK_recurse(phi, L):
     if L ==1:
         z = np.cos(phi)
         k = 2*(1-1/math.pi * phi) * z + 1/math.pi * np.sqrt(1-z**2)
@@ -38,7 +56,16 @@ def NTK(phi, L):
         a = phi
         for i in range(L-1):
             a = f(a,1)
-        return np.cos(f(a,1)) + NTK(phi,L-1) * (1-a/math.pi)
+        return np.cos(f(a,1)) + NTK_recurse(phi,L-1) * (1-a/math.pi)
+
+# simpler NTK recursion relying on NNGP computation
+def NTK_recurse2(z, L):
+    if L == 0:
+        return z # first layer is just x * x' = z
+    else:
+        dot_Phi_L = Dot_Phi_Kernel( NNGP2(z,L-1) )
+        Phi_last = NNGP2(z,L)
+        return Phi_last + NTK_recurse2(z,L-1) * dot_Phi_L
 
 # gegenbauer quadrature with 5000 roots to compute kernel decomposition
 def get_effective_spectrum(layers, kmax, d, ker = 'NTK'):
@@ -53,9 +80,9 @@ def get_effective_spectrum(layers, kmax, d, ker = 'NTK'):
     for i in range(len(layers)):
         l = layers[i]
         if ker == 'NTK':
-            NTK_mat[i,:] = NTK(np.arccos(z), l)
+            NTK_mat[i,:] = NTK_recurse2(z, l)
         else:
-            NTK_mat[i,:] = NNGP(np.arccos(z), l)
+            NTK_mat[i,:] = NNGP2(z, l)
 
 
     scaled_NTK = NTK_mat * np.outer( np.ones(len(layers)), w)
@@ -103,9 +130,9 @@ def get_effective_spectrum_hermite(layers, kmax, d, ker = 'NTK'):
     for i in range(len(layers)):
         l = layers[i]
         if ker == 'NTK':
-            NTK_mat[i,:] = NTK(np.arccos(z_valid/np.sqrt(d)), l)
+            NTK_mat[i,:] = NTK_recurse2(np.arccos(z_valid/np.sqrt(d)), l)
         else:
-            NTK_mat[i,:] = NNGP(np.arccos(z_valid / np.sqrt(d)), l)
+            NTK_mat[i,:] = NNGP2(np.arccos(z_valid / np.sqrt(d)), l)
 
     scaled_NTK = NTK_mat * np.outer( np.ones(len(layers)), w_valid)
     scaled_H =  H * np.outer(scales**(-1), np.ones(num_pts))
