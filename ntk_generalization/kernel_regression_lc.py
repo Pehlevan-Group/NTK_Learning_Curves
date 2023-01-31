@@ -2,7 +2,8 @@ import numpy as np
 import scipy as sp
 import scipy.special
 import scipy.stats
-from utils import gegenbauer, compute_NTK_spectrum
+import gegenbauer
+import compute_NTK_spectrum
 import matplotlib.pyplot as plt
 import approx_learning_curves
 #import compute_NTK_spectrum
