@@ -1,9 +1,9 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import approx_learning_curves
-from utils import compute_NTK_spectrum
-from utils import gegenbauer
+from ntk_generalization import approx_learning_curves
+from ntk_genealization.utils import compute_NTK_spectrum
+from ntk_generalization.utils import gegenbauer
 
 
 # write file key here to read all of the data from the experiment

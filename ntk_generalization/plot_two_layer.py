@@ -1,8 +1,8 @@
 import numpy as np
-from utils import gegenbauer
-from utils import compute_NTK_spectrum
+from ntk_generalization.utils import gegenbauer
+from ntk_generalization.utils import compute_NTK_spectrum
 import matplotlib.pyplot as plt
-import approx_learning_curves
+from ntk_generalizaton import approx_learning_curves
 import csv
 import numba
 from numba import jit
