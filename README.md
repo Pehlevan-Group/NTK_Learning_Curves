@@ -1,6 +1,6 @@
 
 # Learning Curves for NTK and Wide Neural Networks
-See our preprint on [Arxiv](https://arxiv.org/abs/2002.02561)
+Code to reproduce experiments in our [ICML 2020 paper](https://arxiv.org/abs/2002.02561)
 
 ## Experiments
 
