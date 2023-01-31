@@ -2,8 +2,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import approx_learning_curves
-import compute_NTK_spectrum
-import gegenbauer
+from utils import compute_NTK_spectrum
+from utils import gegenbauer
 
 
 # write file key here to read all of the data from the experiment

@@ -4,8 +4,8 @@ import scipy.optimize
 import scipy.integrate
 import scipy.special
 import matplotlib.pyplot as plt
-import compute_NTK_spectrum as cNTK
-import gegenbauer
+from utils import compute_NTK_spectrum as cNTK
+from utils import gegenbauer
 import math
 
 def uc_implicit(x, *args):

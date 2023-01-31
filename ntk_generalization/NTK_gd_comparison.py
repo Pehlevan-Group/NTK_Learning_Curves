@@ -10,7 +10,7 @@ from neural_tangents import stax
 import matplotlib.pyplot as plt
 import scipy as sp
 import scipy.special
-import gegenbauer
+from utils import gegenbauer
 import pandas as pd
 import numpy as npo
 import argparse

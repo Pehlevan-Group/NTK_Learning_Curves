@@ -14,7 +14,7 @@ import scipy.optimize
 import numpy as npo
 from mnist import MNIST
 import pandas as pd
-import learning_curves
+#import learning_curves
 from jax.config import config
 import tensorflow as tf
 import tensorflow.keras

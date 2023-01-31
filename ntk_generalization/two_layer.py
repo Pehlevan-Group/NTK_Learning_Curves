@@ -1,6 +1,6 @@
 import numpy as np
-import gegenbauer
-import compute_NTK_spectrum
+from utils import gegenbauer
+from utils import compute_NTK_spectrum
 import matplotlib.pyplot as plt
 import approx_learning_curves
 import csv
