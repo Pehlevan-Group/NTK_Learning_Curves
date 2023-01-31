@@ -1,7 +1,7 @@
 import numpy as np
 import math
 import matplotlib.pyplot as plt
-import gegenbauer
+#import gegenbauer
 import scipy as sp
 import scipy.special
 import scipy.optimize
