@@ -22,7 +22,7 @@ def compute_kernel(X, Xp, spectrum, d, kvals):
     gram = X @ Xp.T
     gram = jnp.reshape(gram, P*Pp)
     Q = geg_jit(gram, kvals, d)
-    degens = jnp.array( [get_degeneracy(d,k) for k in kvals] )
+    degens = jnp.array( [gegenbauer.get_degeneracy(d,k) for k in kvals] )
     K = Q.T @ spectrum
     K = jnp.reshape(K, (P,Pp))
     return K
@@ -48,7 +48,7 @@ def mode_err_expt(P, k_target, spectrum, kmax, d, num_repeats, lamb = 1e-6):
     X_test = sample_random_points(num_test, d, key_te)
     Kte = compute_kernel(X_test,X, spectrum, d, kvals)
     f = Kte @ alpha
-    y = geg_jit( X_test @ beta , kvals, d )[k_target,:]
+    y = geg_jit( X_test @ beta , kvals, d)[k_target,:]
     all_errs[i] = jnp.mean((f-y)**2)
   return all_errs
 
