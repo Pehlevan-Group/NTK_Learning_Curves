@@ -38,11 +38,10 @@ def Dot_Phi_kernel(z):
     return 0.5/jnp.pi *( jnp.pi - jnp.arccos(z))
 
 
-def get_effective_spectrum(layers, kmax, d, ker = 'NTK'):
+def get_effective_spectrum(layers, kmax, d, ker = 'NTK', num_pts=2000):
 
     normed_spec = np.zeros((len(layers), kmax))
-    num_pts = 2000
-    
+
     # alpha parameter (see Wolfram Alpha)
     alpha = d/2.0 - 1
 

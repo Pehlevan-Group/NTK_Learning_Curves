@@ -4,7 +4,7 @@ import jax.numpy as jnp
 import scipy as sp
 import scipy.special
 import scipy.stats
-from ntk_generalization.utils import gegenbauer, compute_NTK_spectrum, approx_learning_curves
+from ntk_generalization.utils import gegenbauer
 
 
 # draws random points on unit sphere
