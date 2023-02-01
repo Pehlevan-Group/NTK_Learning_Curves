@@ -22,8 +22,7 @@ def compute_kernel(X, Xp, spectrum, d, kvals):
     gram = X @ Xp.T
     gram = jnp.reshape(gram, P*Pp)
     Q = geg_jit(gram, kvals, d)
-    degens = jnp.array( [get_degeneracy(d,k) for k in range(kmax)] )
-    #K = Q.T @ (spectrum * degens)
+    degens = jnp.array( [get_degeneracy(d,k) for k in kvals] )
     K = Q.T @ spectrum
     K = jnp.reshape(K, (P,Pp))
     return K
