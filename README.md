@@ -5,35 +5,5 @@ Code to reproduce experiments in our [ICML 2020 paper](https://arxiv.org/abs/200
 ## Experiments
 
 ### Kernel Regression experiment with NTK
-To generate experimental and theoretical learning curves for kernel regression with ReLU NTK run
 
-`python kernel_regression_lc.py --input_dim [d] --lamb [lamb] --NTK_depth [depth]`
-
-The optional arguments are: `input_dim` is the dimension of the data,
-`lamb` is the explicit regularizer,
-`NTK_depth` is the number of layers for the fully connected ReLU NTK.
-These parameters default to the values used in the paper.
-
-### NN with Pure Mode Targets
-
-`python NTK_gd_comparison.py --input_dim [d] --M [M] --depth [depth] --learning_rage [lr]`
-
-`M` is the number of hidden units in each layer.
-
-### Two-Layer NN with Composite Targets
-
-`python two_layer.py --input_dim [d] --M [M]`
-
-
-### MNIST Experiments with NTK and NN regression
-
-`python mnist_multiple_classes.py`
-
-### Plotting
-
-`python plot_two_layer.py --input_dim [d] --M [M]`
-
-`python plot_curve.py`
-
-Change the file name in plot_curve.py to plot the results from the Pure Mode experiments.
-Some examples are stored in the results directory.
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Pehlevan-Group/NTK_Learning_Curves/blob/master/Mode_Err_Expt.ipynb)
