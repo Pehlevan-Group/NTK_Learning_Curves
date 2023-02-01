@@ -10,6 +10,10 @@ import math
 #from numba import jit
 
 
+# ratio of sphere surface area in dim d to d-1
+def area_ratio(dim):
+    return np.sqrt(np.pi)*np.exp(spe.gammaln((dim-1)/2) - spe.gammaln((dim)/2))
+
 
 # jax.lax recursion for fast gegenbauer
 def get_gegenbauer_lax(x,kvals,d):
@@ -28,6 +32,7 @@ def get_gegenbauer_lax(x,kvals,d):
 # standard for loop gegenbauer recursion
 def gegenbauer_loop(x, kvals, d):
     alpha = d / 2.0 - 1
+    kmax = len(kvals)
     Q = np.zeros((kmax, len(x)))
     Q[0, :] = np.ones(len(x))
     Q[1, :] = 2 * alpha * x
