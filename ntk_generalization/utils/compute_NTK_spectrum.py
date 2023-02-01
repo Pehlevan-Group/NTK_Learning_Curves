@@ -55,7 +55,7 @@ def get_effective_spectrum(layers, kmax, d, ker = 'NTK'):
     # deg k polynomial degeneracy 
     degens = np.array( [gegenbauer.get_degeneracy(d,k) for k in range(kmax)] )
     # normalization coefficient for eigenvalues
-    norms = eigenvalue_normalization(kmax, alpha)
+    norms = gegenbauer.eigenvalue_normalization(kmax, alpha)
 
     # compute gegenbauer polynomials over quad. points
     #Q = get_gegenbauer_lax(z, jnp.arange(kmax), d)
@@ -70,7 +70,7 @@ def get_effective_spectrum(layers, kmax, d, ker = 'NTK'):
       #scaled_Q =  Q * np.outer(degens, np.ones(num_pts))
 
       spectrum_scaled = Q_lax @ scaled_NTK 
-      spectrum_scaled = spectrum_scaled * np.heaviside(spectrum_scaled-1e-16, 0)
+      spectrum_scaled = spectrum_scaled * jnp.heaviside(spectrum_scaled-1e-16, 0)
       eigs_L = spectrum_scaled / norms
       normed_spec[i,:] = eigs_L
 
