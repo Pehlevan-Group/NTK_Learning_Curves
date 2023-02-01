@@ -16,7 +16,7 @@ def NTK_iter(z, L):
   # z = x * x' = cos(theta)
   h = 1.0*z
   all_Phi = []
-  for l in range(depth):   
+  for l in range(L):   
     h = Phi_kernel(h)
     all_Phi += [h]
 
