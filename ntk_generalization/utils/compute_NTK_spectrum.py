@@ -22,7 +22,7 @@ def NTK_iter(z, L):
 
   K = jnp.zeros(z.shape[0])
   all_G = [Dot_Phi_kernel(all_Phi[-2])] # < dot_phi(h^L) dot_phi(h^L) >_{h^L ~ Phi^{L-1}}
-  for l in range(depth-2):
+  for l in range(L-2):
     all_G.insert(0,  all_G[0] * Dot_Phi_kernel(all_Phi[-3-l]) )
   all_G.insert(0, all_G[0] * Dot_Phi_kernel(z))
   K = all_Phi[-1] + all_G[0] * z
